@@ -1,3 +1,6 @@
+# add a if logic here to decide wheather to create a pull request generator or not
+{{ if .Values.pullRequestGenerator }}
+---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -43,3 +46,4 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: {{ .Values.appNamespace }}
+{{ end }}

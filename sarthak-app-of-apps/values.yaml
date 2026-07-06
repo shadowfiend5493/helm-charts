@@ -10,3 +10,4 @@ immutable: "/manifests/{{ index (sortAlpha .labels) 0 | replace \"appname: \" \"
 config: "/manifests/{{ index (sortAlpha .labels) 0 | replace \"appname: \" \"\" }}/{{ index (sortAlpha .labels) 2 | replace \"env: \" \"\"}}/configmap/configmap.yaml"
 branch: "{{ .branch }}"
 jiraId: "{{ index (sortAlpha .labels) 3 | replace \"releaseName: \" \"\"}}"
+pullRequestGenerator: false
