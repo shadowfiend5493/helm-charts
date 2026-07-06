@@ -1,0 +1,12 @@
+namespace: argocd
+targetRevision: main
+project: default
+appNamespace: mfa
+repoUrl: https://github.com/sarsatis/helm-charts.git
+
+
+applicationName: "{{ index (sortAlpha .labels) 0 | replace \"appname: \" \"\"}}-{{ .number }}-canary"
+immutable: "/manifests/{{ index (sortAlpha .labels) 0 | replace \"appname: \" \"\" }}/{{ index (sortAlpha .labels) 2 | replace \"env: \" \"\"}}/immutable/values.yaml"
+config: "/manifests/{{ index (sortAlpha .labels) 0 | replace \"appname: \" \"\" }}/{{ index (sortAlpha .labels) 2 | replace \"env: \" \"\"}}/configmap/configmap.yaml"
+branch: "{{ .branch }}"
+jiraId: "{{ index (sortAlpha .labels) 3 | replace \"releaseName: \" \"\"}}"

@@ -1,0 +1,7 @@
+namespace: argocd
+targetRevision: main
+project: default
+appNamespace: mfa
+repoUrl: https://github.com/sarsatis/helm-charts.git
+
+  

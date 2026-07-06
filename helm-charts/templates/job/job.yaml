@@ -1,0 +1,15 @@
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   generateName: trigger-rtl-
+#   annotations:
+#     argocd.argoproj.io/hook: PostSync
+#     argocd.argoproj.io/hook-delete-policy: HookSucceeded
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: trigger-rtl
+#           image: alpine:latest
+#           command: ["sleep", "5"]
+#       restartPolicy: Never

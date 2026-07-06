@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: "{{ .Values.appName }}"
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.appName }}"
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configuration/configmap.yaml") . | nospace | sha256sum }}
+      labels:
+        app: "{{ .Values.appName }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.imageTag | default .Chart.AppVersion }}"
+          name: "{{ .Values.appName }}"
+          resources: {}
+{{- if eq (.Values.appName | toString) "rtlpropagation-sb" }}
+          env:
+          - name: JENKINS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: jenkins-token
+                key: JENKINS_TOKEN
+{{- end }}               
+{{- if eq (.Values.appKind | toString) "db" }}
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                  key: MYSQL_ROOT_PASSWORD
+                  name: {{ .Values.appName }}-secret
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                  key: MYSQL_DATABASE
+                  name: {{ .Values.appName }}-cm
+{{- end }}
+status: {}

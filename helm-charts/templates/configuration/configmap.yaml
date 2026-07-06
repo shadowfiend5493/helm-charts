@@ -1,0 +1,9 @@
+{{- if eq (.Values.appKind | toString) "db" }}
+apiVersion: v1
+data:
+  MYSQL_DATABASE: myapps
+  USERNAME: test
+kind: ConfigMap
+metadata:
+  name: {{ .Values.appName }}-cm
+{{- end }}

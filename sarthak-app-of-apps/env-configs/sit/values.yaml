@@ -1,0 +1,11 @@
+env:
+  name: sit
+
+appList:
+# - solar-system
+- priyankalearnings
+- librarymanagementsystem
+- employeemanagement
+- mysql
+# - rtlpropagation-sb
+# - priyankapractice

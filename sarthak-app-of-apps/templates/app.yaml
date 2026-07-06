@@ -1,0 +1,33 @@
+# templates/applications.yaml
+{{- range .Values.appList }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{ . }}"
+  namespace: {{ $.Values.namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  info:
+  - name: 'Propagate To RTL:'
+    value: 'http://localhost:8080/api/jenkins/trigger-job'
+  project: default
+  source:
+    repoURL: {{ $.Values.repoUrl }}
+    targetRevision: {{ $.Values.targetRevision }}
+    path: "helm-charts"
+    helm:
+      valueFiles:
+        - "/manifests/{{ . }}/{{ $.Values.env.name }}/immutable/values.yaml"
+        - "/manifests/{{ . }}/{{ $.Values.env.name }}/configmap/configmap.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $.Values.appNamespace }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: vs-jenkins
+  namespace: mfa
+spec:
+  gateways:
+    - apps-gateway
+  hosts:
+    - jenkins.simplifydevopstools.com
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: jenkins.jenkins.svc.cluster.local
+            port:
+              number: 8080

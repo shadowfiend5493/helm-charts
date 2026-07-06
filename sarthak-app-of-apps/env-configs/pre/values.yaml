@@ -1,0 +1,8 @@
+env:
+  name: pre
+
+appList:
+# - solar-system
+# - priyankalearnings
+- employeemanagement
+# - priyankapractice

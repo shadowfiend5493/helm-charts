@@ -1,0 +1,16 @@
+# Default values for springboot-demoweb.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+appName: priyankalearnings
+
+image:
+  repository: sarthaksatish/priyankalearnings
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  imageTag: 62326121412
+
+  # 62326d827a5357cb2daec314e0de73f4ee4850c0
+

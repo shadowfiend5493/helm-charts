@@ -1,0 +1,13 @@
+# Default values for springboot-demoweb.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+appName: solar-system
+
+image:
+  repository: sarthaksatish/solar-system
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 3-4d1d0789df66b8bf922ac8b0ab6f6ab2401c03b4

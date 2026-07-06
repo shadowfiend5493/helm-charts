@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pull-request-gen
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  generators:
+    - pullRequest:
+        github:
+          owner: sarsatis
+          repo: helm-charts
+          tokenRef:
+            secretName: github-token
+            key: token
+          labels:
+          - canary
+        requeueAfterSeconds: 15
+  template:
+    metadata:
+      name: {{ .Values.applicationName | quote }}
+    spec:
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        targetRevision: {{ .Values.branch | quote }}
+        path: helm-charts
+        helm:
+          parameters:
+            - name: jiraId
+              value: {{ .Values.jiraId | quote }}
+            - name: canary
+              value: "True"
+          valueFiles:
+            - {{ .Values.immutable | quote }}
+            - {{ .Values.config | quote }}
+      project: {{ .Values.project }}
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: {{ .Values.appNamespace }}

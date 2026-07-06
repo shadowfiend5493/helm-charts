@@ -1,0 +1,22 @@
+{{- if .Values.virtualServiceEnabled }}
+{{- if eq (.Values.appKind | toString) "microservice" }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-{{ .Release.Name }}
+spec:
+  gateways:
+  - {{ .Values.gatewayName }}
+  hosts:
+  - {{ .Release.Name }}.simplifydevopstools.com
+  http:
+  - match:
+    - uri:
+        prefix: "/{{ .Release.Name }}"
+    route:
+    - destination:
+        host: {{ .Release.Name }}
+        port:
+          number: {{ .Values.port }}
+{{- end }}
+{{- end }}

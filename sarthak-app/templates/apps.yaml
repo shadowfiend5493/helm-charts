@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "apps-{{ .Values.env.name }}"
+  namespace: {{ .Values.namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.project }}
+  source:
+    repoURL: {{ .Values.repoUrl }}
+    targetRevision: {{ .Values.targetRevision }}
+    path: sarthak-app-of-apps
+    helm:
+      valueFiles:
+      - "env-configs/{{ .Values.env.name }}/values.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.appNamespace }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
