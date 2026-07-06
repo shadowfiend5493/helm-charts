@@ -2,6 +2,6 @@ namespace: argocd
 targetRevision: main
 project: default
 appNamespace: mfa
-repoUrl: https://github.com/sarsatis/helm-charts.git
+repoUrl: https://github.com/shadowfiend5493/helm-charts.git
 
   
